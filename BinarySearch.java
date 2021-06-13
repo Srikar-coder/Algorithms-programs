@@ -3,13 +3,24 @@ package com.bridgeLabz.algorithmPrograms;
 import java.util.*;
 
 public class BinarySearch {
-	public static boolean binarySearch(String words[], String search) {
-		Arrays.sort(words);
-		for (int i = 0; i < words.length; i++) {
-			if (words[i].equals(search))
-				return true;
+	public static int binarySearch(String words[], String search) {
+		int lowerBound = 0, upperBound = words.length - 1;
+		while (lowerBound <= upperBound) {
+			int index = lowerBound + (upperBound - lowerBound) / 2;
+			int res = search.compareTo(words[index]);
+			// Check if string is present at mid
+			if (res == 0)
+				return index;
+			// If x greater, ignore left half
+			if (res > 0)
+				lowerBound = index + 1;
+			// If x is smaller, ignore right half
+			else
+				upperBound = index - 1;
 		}
-		return false;
+
+		return -1;
+
 	}
 
 	public static void main(String args[]) {
@@ -18,8 +29,9 @@ public class BinarySearch {
 		String words[] = sc.next().split(",");
 		System.out.println("Enter the word you want to search");
 		String search = sc.next();
-		boolean result = binarySearch(words, search);
-		System.out.println(result ? "word is found" : "word is not found");
+		Arrays.sort(words);
+		int result = binarySearch(words, search);
+		System.out.println((result != -1) ? "word is found" : "word is not found");
 
 	}
 }
